@@ -1,5 +1,5 @@
 # MOSAD_Homework
-## Palette25's Github repository for Web2.0 homework
+## Palette25's Github repository for MOSAD homework
 
 ### Self-Introduction
 
@@ -8,5 +8,5 @@ My name is CML, a student studying in SYSU with software engineering as my manag
 
 ### Repository-Introduction
 
-This repository is used to store my homework or some projects of Web2.0.
+This repository is used to store my homework or some projects of MOSAD.
 
