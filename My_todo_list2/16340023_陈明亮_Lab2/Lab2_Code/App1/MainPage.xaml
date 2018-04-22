@@ -1,0 +1,144 @@
+﻿<Page
+    x:Class="App1.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="using:App1.Models"
+    xmlns:local="using:App1.ViewModels"
+    xmlns:main="using:App1"
+    mc:Ignorable="d">
+
+    <Grid Background="#FFA2CEF4"  x:Name="grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="First" Width="800"/>
+            <ColumnDefinition x:Name="Next" Width="0"/>
+        </Grid.ColumnDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Group1">
+                <VisualState x:Name="State0">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="State1">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Next.Width" Value="0"/>
+                        <Setter Target="main_pa.Width" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State2">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Next.Width" Value="5*" />
+                        <Setter Target="First.Width" Value="5*"/>
+                        <Setter Target="scroller_2.(UIElement.Opacity)" Value="1"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <ScrollViewer x:Name="scroller" VerticalScrollBarVisibility="Auto" Grid.Column="0" >
+            <Grid x:Name="main" Width="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Todos" Grid.Row="0" FontSize="40" Height="80" Width="120" FontWeight="Bold" Margin="0, 0, 0, 0" HorizontalAlignment="Left" />
+                <TextBox Grid.Row="0" x:Name="key" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="170, 0, 0, 0" PlaceholderText="Search Name"/>
+                <Button Grid.Row="0" Width="80" Height="30" HorizontalAlignment="left" VerticalAlignment="Center" Content="Search" Margin="350, 0, 0, 0" Click="Search_Click"/>
+                <ListView Grid.Row="1" x:Name="list" ItemsSource="{x:Bind ViewModel.ItemStore}" IsItemClickEnabled="True" ItemClick="ListView_ItemClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="md:Item">
+                            <UserControl>
+                                <Grid Height="100" Margin="0, 0, 0, 20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="42"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition x:Name="linew" Width="200"/>
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState>
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1" />
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters>
+                                                    <Setter Target="linew.Width" Value="380"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState>
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="800"/>
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters>
+                                                    <Setter Target="linew.Width" Value="200"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <CheckBox Grid.Column="0" Margin="0, 20, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="42" Height="70" Background="#FFD71C1C" IsChecked="{x:Bind Path=isdealed,Converter={StaticResource bool_to_null},Mode=TwoWay}" Click="CheckBox_Click"/>
+                                    <Ellipse Width="100" Height="100" Margin="0,0,0,0" x:Name="eimg" Grid.Column="1"  Visibility="{x:Bind Path=ImageVisi,Mode=OneWay}">
+                                        <Ellipse.Fill>
+                                            <ImageBrush x:Name="img" ImageSource="{x:Bind Path=source,Converter={StaticResource str_to_image}, Mode=OneWay}"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <TextBlock Grid.Column="2" FontSize="20" Height="52" TextWrapping="Wrap" Text="{x:Bind Path=title,Mode=TwoWay}" Margin="20,30,50,28" PointerEntered="list_PointerEntered"/>
+                                    <Line Grid.Column="2" Stretch="Fill" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Left" X1="1" Height="2" VerticalAlignment="Center" Width="300" Margin="20, 0, 0, 0" Visibility="{x:Bind Path=isdealed,Converter={StaticResource bool_to_visi},Mode=OneWay}"/>
+                                    <AppBarButton Grid.Column="3" Icon="Setting" Label="Setting" Height="40" Width="50" HorizontalAlignment="Left" Margin="0, -10, 0, 0" VerticalAlignment="Center">
+                                        <AppBarButton.Flyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem Click="on_share" Text="Share" Height="40" Width="70"/>
+                                            </MenuFlyout>
+                                        </AppBarButton.Flyout>
+                                    </AppBarButton>
+                                </Grid>
+                            </UserControl>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </ScrollViewer>
+        <ScrollViewer x:Name="scroller_2" VerticalScrollBarVisibility="Visible" Grid.Column="1" HorizontalAlignment="Right" Opacity="0">
+            <StackPanel x:Name="main_pa" Height="Auto" Width="450" Orientation="Vertical" HorizontalAlignment="Center">
+                <Ellipse Width="180" Height="180" Margin="0,0,0,0" x:Name="eimg">
+                    <Ellipse.Fill>
+                        <ImageBrush x:Name="todo_img" ImageSource="/Assets/todo.jpg"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Slider HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 10, 0, 0" Width="274" Height="49" ValueChanged="Slider_ValueChanged"/>
+                <AppBarButton Icon="OpenFile" x:Name="img_btn" Height="43" Width="60" Margin="300, 0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top" Click="img_click"/>
+                <TextBlock FontSize="13px" HorizontalAlignment="Center" Text="select" Margin="300, 0, 0, 0" VerticalAlignment="Top" Height="17" Width="39" />
+                <TextBlock TextWrapping="Wrap" Text="Title" VerticalAlignment="Top" Margin="40, 20, 0, 10"/>
+                <TextBox x:Name="title" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="30" Width="350"/>
+                <TextBlock  TextWrapping="Wrap" Text="Content" VerticalAlignment="Top" Margin="40, 20, 0, 10"/>
+                <TextBox x:Name="content" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="100" Width="350"/>
+                <TextBlock TextWrapping="Wrap" Text="Date" VerticalAlignment="Top" Margin="40, 20, 0, 10" />
+                <DatePicker x:Name="date" HorizontalAlignment="Center" VerticalAlignment="Top" Height="36" Width="350" BorderThickness="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="create" VerticalAlignment="Top" Margin="40, 20, 150, 20" Height="45" Width="108" Content="Create" Click="on_create"/>
+                    <Button Content="Clear" VerticalAlignment="Top" Margin="0, 20, 0 ,20" Height="45" Width="108" Click="on_cancel" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar x:Name="com_btn">
+            <AppBarButton x:Name="delete" Icon="Delete" Label="Delete" Click="delete_item" Visibility="Collapsed"/>
+            <AppBarButton x:Name="add" Icon="Add" Label="Add" Click="jump_next"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Page.Resources>
+        <ResourceDictionary>
+            <local:bool_to_null x:Key="bool_to_null"/>
+            <local:bool_to_visi x:Key="bool_to_visi"/>
+            <local:str_to_image x:Key="str_to_image"/>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+</Page>
