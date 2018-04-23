@@ -3,7 +3,7 @@
 
 ### Self-Introduction
 
-My name is CML, a student studying in SYSU with software engineering as my manager.
+My name is CML, a student studying in SYSU with software engineering as my major.
 班级: 软工一班
 
 ### Repository-Introduction
