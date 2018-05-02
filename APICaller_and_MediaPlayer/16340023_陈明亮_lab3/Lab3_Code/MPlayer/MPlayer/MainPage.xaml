@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="MPlayer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MPlayer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"  AllowDrop="True" DragOver="BackImage_Drag" Drop="BackImage_Drop">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Ellipse x:Name="BackImage" Grid.Row="0" Width="500" Height="500" RenderTransformOrigin="0.5, 0.5">
+            <Ellipse.RenderTransform>
+                <CompositeTransform />
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <ImageBrush x:Name="AudioImg" ImageSource="/Assets/dark.jpg"/>
+            </Ellipse.Fill>
+        </Ellipse>
+        <MediaPlayerElement Grid.Row="0" x:Name="videoPlayer" 
+                            Width="700" Height="500"
+                            AreTransportControlsEnabled="False"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="Collapsed"/>
+        <TextBlock Grid.Row="1" x:Name="startTime" Text="00:00:00" Margin="120, 60, 0, 0"/>
+        <TextBlock Grid.Row="1" x:Name="endTime" Text="00:00:00" Margin="0, 60, 120, 0" HorizontalAlignment="Right"/>
+        <Slider Grid.Row="1" x:Name="slider" Width="600" Margin="0, 50, 0, 0" ValueChanged="onSlideChanged"/>
+        <StackPanel x:Name="vpanel" Grid.Row="1" Height="60" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="LightGray" Visibility="Collapsed">
+            <Slider x:Name="sound" Width="300" HorizontalAlignment="Center" Margin="0, 10, 0, 0" ValueChanged="volume_changed"/>
+        </StackPanel>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="play" Icon="Play" Label="play" Click="on_play"/>
+            <AppBarButton x:Name="stop" Icon="Stop" Label="stop" Click="on_stop"/>
+            <AppBarButton x:Name="large" Icon="FullScreen" Label="large" Click="on_fullScreen"/>
+            <AppBarButton x:Name="video" Icon="Video" Label="video" Click="on_watchVideo"/>
+            <AppBarButton x:Name="upload" Icon="OpenFile" Label="upload" Click="on_upload"/>
+            <AppBarButton x:Name="volume" Icon="Volume" Label="volume" Click="on_changeVolume"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Page.Resources>
+        <Storyboard x:Name="board" RepeatBehavior="Forever">
+            <DoubleAnimation Duration="0:0:15" To="360" 
+                             Storyboard.TargetName="BackImage"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)"/>
+        </Storyboard>
+    </Page.Resources>
+</Page>
